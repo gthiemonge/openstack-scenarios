@@ -26,6 +26,7 @@ cmd \
     'subnet_id=$(openstack subnet show ipv4-members-subnet -c id -f value)'
 cmd \
     'server_name=$(openstack server list -c Name -f value | head -1)'
+cmd \
     echo \$server_name
 cmd \
     'server_address=$(openstack server show -c addresses -f value $server_name | grep -o "10\.0\.0\.[0-9]*")'
@@ -64,4 +65,5 @@ silent cmd \
     openstack loadbalancer l7rule create --compare-type EQUAL_TO --key site_version --type COOKIE --value B policy2
 wait_for_lb lb1
 
+echo '# press enter to delete resources'
 read a

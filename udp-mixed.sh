@@ -21,9 +21,9 @@ silent cmd \
 wait_for_lb lb1
 
 cmd \
-    'server_name=$(openstack server list -c Name -f value  | head -1)'
+    'server_name=$(openstack server list -c Name -f value | head -1)'
 cmd \
-    'server_address=$(openstack server show -c addresses -f value ma-up-rwz7mubg6qt3-0-a7cyt5afno4y-server-n4curhmia7tm  |grep -o "10\.0\.0\.[0-9]*")'
+    'server_address=$(openstack server show -c addresses -f value $server_name | grep -o "10\.0\.0\.[0-9]*")'
 silent cmd \
     openstack loadbalancer member create --name member1 --subnet \$subnet_id --address \$server_address --protocol-port 80 pool1
 #cmd \
