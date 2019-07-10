@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 export PATH=$PATH:${OS_SCENARIO_DIR:-./}
 
 source common.sh
@@ -26,10 +28,10 @@ cmd \
     'server_address=$(openstack server show -c addresses -f value $server_name | grep -o "10\.0\.0\.[0-9]*")'
 silent cmd \
     openstack loadbalancer member create --name member1 --subnet \$subnet_id --address \$server_address --protocol-port 80 pool1
-#cmd \
-#    'subnet_id=$(openstack subnet show ipv6-members-subnet -c id -f value)'
-#silent cmd \
-#    openstack loadbalancer member create --name member1 --subnet \$subnet_id --address fe80:789::4242 --protocol-port 8080 pool1
+cmd \
+    'subnet_id=$(openstack subnet show ipv6-members-subnet -c id -f value)'
+silent cmd \
+    openstack loadbalancer member create --name member1 --subnet \$subnet_id --address fe80:789::4242 --protocol-port 8080 pool1
 wait_for_lb lb1
 
 echo '# press enter to delete resources'
