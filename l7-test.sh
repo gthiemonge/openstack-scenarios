@@ -62,7 +62,8 @@ silent cmd \
     openstack loadbalancer l7policy create --action REDIRECT_TO_POOL --redirect-pool pool_B --name policy2 --position 2 listener1
 wait_for_lb lb1
 silent cmd \
-    openstack loadbalancer l7rule create --compare-type EQUAL_TO --key site_version --type COOKIE --value B policy2
+    'openstack loadbalancer l7rule create --compare-type EQUAL_TO --key site_version --type HEADER --value "" policy2'
+    #openstack loadbalancer l7rule create --compare-type EQUAL_TO --key site_version --type HEADER --value B policy2
 wait_for_lb lb1
 
 echo '# press enter to delete resources'

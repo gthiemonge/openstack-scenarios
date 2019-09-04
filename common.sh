@@ -23,3 +23,20 @@ cmd () {
 silent () {
     $* > /dev/null
 }
+
+registered_lbs=""
+register_lb () {
+    registered_lbs="${registered_lbs:+$registered_lbs }$1"
+}
+
+on_exit () {
+    echo '# press enter to delete resources'
+    read a
+    for lb in $registered_lbs; do
+        cmd \
+            openstack loadbalancer delete $lb --cascade
+    done
+    exit 0
+}
+
+trap "on_exit" EXIT INT
